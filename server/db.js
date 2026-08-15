@@ -6,9 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DB_FILE = path.join(__dirname, "data.json");
 
 const DEFAULT_STATE = {
-  balance: 1000000, // PKR demo balance
-  positions: [],
-  closedTrades: [],
+  users: {}, // username -> { salt, hash, balance, positions: [], pendingOrders: [], closedTrades: [] }
 };
 
 function load() {
@@ -34,5 +32,14 @@ export function getState() {
 
 export function setState(next) {
   state = next;
+  save();
+}
+
+export function getUser(username) {
+  return state.users[username];
+}
+
+export function saveUser(username, userData) {
+  state.users[username] = userData;
   save();
 }
